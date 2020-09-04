@@ -1,20 +1,47 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
+import { Container, Header, Content, Text, Title, Left, Right, Button, Icon, Body, Form, Item, Input, Label } from 'native-base';
 export default class FloatingLabelExample extends Component {
   render() {
     return (
       <Container>
-        <Header />
+        <Header span>
+          <Body>
+            <Title style={{alignSelf:'center'}}>PROFILE</Title>
+          </Body>
+        </Header>
         <Content>
           <Form>
             <Item floatingLabel>
-              <Label>Username</Label>
+              <Label>Name</Label>
               <Input />
             </Item>
-            <Item floatingLabel last>
-              <Label>Password</Label>
+            <Item floatingLabel>
+              <Label>Address</Label>
               <Input />
             </Item>
+            <Item floatingLabel>
+              <Label>Religion</Label>
+              <Input />
+            </Item>
+            <Item floatingLabel>
+              <Label>Date of Birth</Label>
+              <Input />
+            </Item>
+            <Item floatingLabel>
+              <Label>E-mail</Label>
+              <Input />
+            </Item>
+            <Item floatingLabel>
+              <Label>Number/Telp</Label>
+              <Input />
+            </Item>
+            <Item floatingLabel>
+              <Label>Nationality</Label>
+              <Input />
+            </Item>
+            <Button full rounded style={{alignSelf:'center', marginTop:30, marginLeft:10, marginRight:10}}>
+            <Text>Save</Text>
+          </Button>
           </Form>
         </Content>
       </Container>
