@@ -1,50 +1,28 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Text, Title, Left, Right, Button, Icon, Body, Form, Item, Input, Label } from 'native-base';
+import {
+  SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
+  import {
+    Colors,
+  } from 'react-native/Libraries/NewAppScreen';
+//import { Container, Header, Content, Text, Title, Left, Right, Button, Icon, Body, Form, Item, Input, Label } from 'native-base';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import read from './crud/read';
+import input from './crud/input';
+
+const Stack = createStackNavigator();
+
 export default class FloatingLabelExample extends Component {
   render() {
     return (
-      <Container>
-        <Header span>
-          <Body>
-            <Title style={{alignSelf:'center'}}>PROFILE</Title>
-          </Body>
-        </Header>
-        <Content>
-          <Form>
-            <Item floatingLabel>
-              <Label>Name</Label>
-              <Input />
-            </Item>
-            <Item floatingLabel>
-              <Label>Address</Label>
-              <Input />
-            </Item>
-            <Item floatingLabel>
-              <Label>Religion</Label>
-              <Input />
-            </Item>
-            <Item floatingLabel>
-              <Label>Date of Birth</Label>
-              <Input />
-            </Item>
-            <Item floatingLabel>
-              <Label>E-mail</Label>
-              <Input />
-            </Item>
-            <Item floatingLabel>
-              <Label>Number/Telp</Label>
-              <Input />
-            </Item>
-            <Item floatingLabel>
-              <Label>Nationality</Label>
-              <Input />
-            </Item>
-            <Button full rounded style={{alignSelf:'center', marginTop:30, marginLeft:10, marginRight:10}}>
-            <Text>Save</Text>
-          </Button>
-          </Form>
-        </Content>
-      </Container>
+      <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Input" component={input} />
+        <Stack.Screen name="Read" component={read} />
+        {/* <Stack.Screen name="Update" component={UpdateActivity} /> */}
+      </Stack.Navigator>
+    </NavigationContainer>
     );
   }
 }
