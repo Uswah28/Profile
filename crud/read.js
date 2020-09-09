@@ -1,53 +1,60 @@
 import React, {
   Component,
 } from 'react';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Alert,
+  } from 'react-native';
 
-import { View, Text, FlatList, StyleSheet, TouchableHighlight, Alert } from 'react-native';
+  import {Header, Content, CardItem, Card, Container} from 'native-base';
 
-import { Content, Icon, Card, CardItem} from 'native-base';
-
-import axios from 'axios';
+  import axios from 'axios';
+  import { TouchableHighlight, FlatList } from 'react-native-gesture-handler';
 
 export default class Read extends Component {
   constructor(props) {
       super(props);
-
       this.state = {
+          name: [],
+          modalVisible: false,
       }
   }
 
-  getData() {
-      axios.get('http://192.168.43.129:5000/exercises/')
-          .then(Response => {
-              const name = response.data;
-              this.setState({ name: name })
-              console.log(name)
-          })
-          .catch((Error) => {
-              console.log(Error);
-          })
+  setModalVisible = (visible) => {
+    this.setState({modalVisible: visible});
   }
 
-  componentDidUpdate() {
-      this.getData()
-  }
+  getdata() {
+    axios.get('http://192.168.43.129:5000/exercises/')
+        .then(response => {
+            const name = response.data;
+            this.setState({ name: name })
+            console.log(name)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
 
+componentDidUpdate() {
+    this.getdata()
+}
 
-  componentDidMount() {
-      this.getData();
-      axios.get('http://192.168.43.129:5000/exercises/')
-          .then(Response => {
-              const name = Response.data;
-              this.setState({ name: name })
-              console.log(name)
-          })
-          .catch((Error) => {
-              console.log(Error);
-          })
-  }
+  componentDidMount(){
+    this.getdata();
+     axios.get('http://192.168.43.129:5000/exercises/')
+     .then(response => {
+         const name = response.data;
+         this.setState({name})
+         console.log(name)
+     })
+     .catch((error) => {
+         console.log(error);
+     })
+ }
 
-
-  key = (item, index) => index.toString()
   createTwoButtonAlert(id, name, address, date, email, number) {
       Alert.alert(
           "What will you do?",
@@ -67,7 +74,7 @@ export default class Read extends Component {
               {
                   text: "DELETE", onPress: () => {
                       axios.delete(`http://192.168.43.129:5000/exercises/${id}`).then(res => console.log(res.data));
-                      this.getData()
+                      this.getdata()
                   }
               }
           ],
@@ -75,37 +82,16 @@ export default class Read extends Component {
       );
   }
 
-  createThreeButtonAlert = () =>
-      Alert.alert(
-          "Alert Title",
-          "My Alert Msg",
-          [
-              {
-                  text: "Ask me later",
-                  onPress: () => console.log("Ask me later pressed")
-              },
-              {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-              },
-              { text: "OK", onPress: () => console.log("OK Pressed") }
-          ],
-          { cancelable: false }
-      );
-  keyExtractor = (item, index) => index.toString()
-
   render() {
-      const { modalVisible } = this.state;
 
       return (
-          <View style={{}} >
-              <View style={styles.header}>
-                  <Text style={styles.txtHeader}> PROFILE </Text>
-              </View>
-
+        <Container style={styles.container}>
+        <View>
+              <Header style={styles.header}>
+                  <Text style={styles.textHeader}>DATA PROFILE </Text>
+                </Header>
               <FlatList
-                  keyExtractor={this.keyExtractor}
+                  keyExtractor={(item) => item.id}
                   data={this.state.name}
                   renderItem={({ item }) => (
                       <TouchableHighlight
@@ -113,12 +99,10 @@ export default class Read extends Component {
                               console.log(item._id);
                               this.createTwoButtonAlert(item._id, item.name, item.address, item.date, item.email, item.number)
                           }}
-                          style={styles.rowFront}
-                      >
+                          style={styles.rowFront}>
                           <Content>
                               <Card>
                                   <CardItem>
-                                      <Icon style={{ fontSize: 24 }} type="FontAwesome5" name="profile" />
                                       <Text>{item.name}{"\n"}{item.address}{"\n"}{item.date}{"\n"}{item.email}{"\n"}{item.number}</Text>
                                   </CardItem>
                               </Card>
@@ -127,129 +111,29 @@ export default class Read extends Component {
                   )}
               />
           </View>
+          </Container>
       );
   }
 }
 const styles = StyleSheet.create({
-  container: {
-      backgroundColor: 'white',
-      marginTop: 20,
-      flex: 1,
-  },
-  txtHeader: {
+    container: {
+      backgroundColor: '#724f1e',
+      alignItems: 'stretch'
+    },
+    header: {
+      alignContent: 'center',
+      backgroundColor: '#442700'
+    },
+    rowFront: {
+        justifyContent: 'flex-start',
+        paddingLeft: 10,
+        paddingRight: 10,
+        height: 100,
+    },
+    textHeader: {
+      alignSelf: 'center',
       fontSize: 20,
-      textAlign: 'center',
-      margin: 10,
-      color: '#fff'
-  },
-  header: {
-      marginTop: -20,
-      height: 60,
-      backgroundColor: '#9933ff',
-      justifyContent: 'center',
-      alignItems: 'center'
-  },
-  subtitleView: {
-      flexDirection: 'row',
-      paddingLeft: 10,
-      marginBottom: -10,
-      paddingTop: 5
-
-  },
-  ratingImage: {
-      height: 19.21,
-      width: 100
-  },
-  ratingText: {
-      paddingLeft: 2,
-      color: 'grey'
-  },
-
-  backTextWhite: {
-      color: '#FFF',
-  },
-  rowFront: {
-      borderBottomColor: 'black',
-      justifyContent: 'flex-start',
-      marginStart: 10,
-      marginEnd: 10,
-  },
-  rowBack: {
-      alignItems: 'center',
-      backgroundColor: '#ccff33',
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingLeft: 15,
-  },
-  editBtn: {
-      alignItems: 'center',
-      backgroundColor: '#ccff33',
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingLeft: 15,
-  },
-  deltBtn: {
-      textAlign: 'right',
-      marginEnd: 24,
-      backgroundColor: '#ff0066',
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingLeft: 15,
-  },
-  backRightBtn: {
-      alignItems: 'center',
-      bottom: 0,
-      justifyContent: 'center',
-      position: 'absolute',
-      top: 0,
-      width: 75,
-  },
-  backRightBtnLeft: {
-      backgroundColor: 'blue',
-      right: 75,
-  },
-  backRightBtnRight: {
-      backgroundColor: 'red',
-      right: 0,
-  },
-
-  centeredView: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 22
-  },
-  modalView: {
-      margin: 20,
-      backgroundColor: "white",
-      borderRadius: 20,
-      padding: 35,
-      alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: {
-          width: 0,
-          height: 2
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5
-  },
-  openButton: {
-      backgroundColor: "#F194FF",
-      borderRadius: 20,
-      padding: 10,
-      elevation: 2
-  },
-  textStyle: {
-      color: "white",
-      fontWeight: "bold",
-      textAlign: "center"
-  },
-  modalText: {
-      marginBottom: 15,
-      textAlign: "center"
-  }
-});
+      color: '#fff',
+      fontFamily: 'mono'
+    },
+  });

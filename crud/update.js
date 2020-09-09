@@ -1,12 +1,21 @@
-import React, {
-  Component
-} from 'react';
+import React, {Component} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Form,
+  Text,
+} from 'react-native';
 
 import {
-  Container, Content, Button, Text, Item, Input, Form
-} from 'native-base';
+  Colors,
+} from 'react-native/Libraries/NewAppScreen';
+import { Container, Content, Input, Item, Button } from 'native-base';
+import {} from '@react-navigation/native'
 
-import axios from 'axios'
+
+import axios from 'axios';
 
 export default class Update extends Component {
   constructor(props) {
@@ -23,21 +32,21 @@ export default class Update extends Component {
 
   componentDidMount() {
       axios.get('http://192.168.43.129:5000/exercises/' + this.props.route.params.ID)
-          .then(Response => {
+          .then(response => {
               this.setState({
-            name: Response.data.name,
-            address: Response.data.address,
-            date: Response.data.date,
-            email: Response.data.email,
-            number: Response.data.number
+            name: response.data.name,
+            address: response.data.address,
+            date: response.data.date,
+            email: response.data.email,
+            number: response.data.number
               })
           })
-          .catch((Error) => {
-              console.log(Error);
+          .catch((error) => {
+              console.log(error);
           })
   }
 
-  onUpdate(id) {
+  onUpdate() {
       const exercises = {
         name: this.state.name,
         address: this.state.address,
@@ -46,7 +55,7 @@ export default class Update extends Component {
         number: this.state.number
       }
 
-      console.log(' EXERCISES ', exercises);
+      console.log(' UPDATE ', exercises);
 
       axios.post('http://192.168.43.129:5000/exercises/update/' + this.props.route.params.ID, exercises)
           .then(res => console.log(res.data))
@@ -55,12 +64,20 @@ export default class Update extends Component {
   render() {
       console.log(this.props.route.params.ID)
       return (
-          <Container>
+        <View>
+        <SafeAreaView>
+          <ScrollView>
+          <Container style={styles.container}>
+          <View>
+                  <Text style={styles.judul}> 
+                    PROFILE UPDATE
+                  </Text>
+                </View>
               <Content>
                   <Form>
                       <Item rounded
-                          style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                          <Input
+                         style={styles.atas}>
+                          <Input style={styles.input}
                               placeholder='Name'
                               onChangeText={name =>
                                   this.setState({ name: name })
@@ -69,8 +86,8 @@ export default class Update extends Component {
                           />
                       </Item>
                       <Item rounded
-                          style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                          <Input
+                          style={styles.atas}>
+                          <Input style={styles.input}
                               placeholder='Address'
                               onChangeText={address =>
                                   this.setState({ address: address })
@@ -79,8 +96,8 @@ export default class Update extends Component {
                           />
                       </Item>
                       <Item rounded
-                          style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                          <Input
+                          style={styles.atas}>
+                          <Input style={styles.input}
                               keyboardType='numeric'
                               placeholder='Date'
                               onChangeText={date =>
@@ -90,8 +107,8 @@ export default class Update extends Component {
                           />
                       </Item>
                       <Item rounded
-                          style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                          <Input
+                          style={styles.atas}>
+                          <Input style={styles.input}
                               placeholder='Email'
                               onChangeText={email =>
                                   this.setState({ email: email })
@@ -100,8 +117,8 @@ export default class Update extends Component {
                           />
                       </Item>
                       <Item rounded
-                          style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                          <Input
+                          style={styles.atas}>
+                          <Input style={styles.input}
                               keyboardType='numeric'
                               placeholder='Number/Telp'
                               onChangeText={number =>
@@ -112,15 +129,59 @@ export default class Update extends Component {
                       </Item>
 
                   </Form>
-                  <Button rounded block style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}
+                  <Button full rounded transparent 
+                  styles={styles.tombol} 
                       onPress={() => {
-                          this.onUpdate(this.props.route.params.ID);
+                          this.onUpdate();
                           this.props.navigation.navigate('Read')
                       }}>
-                      <Text>UPDATE</Text>
+                      <Text style={styles.text}>UPDATE</Text>
                   </Button>
               </Content>
           </Container>
+          </ScrollView>
+        </SafeAreaView>
+      </View>
       );
   }
 }
+
+const styles = StyleSheet.create({
+    scrollView: {
+      backgroundColor: Colors.lighter,
+    },
+    container: {
+      backgroundColor: '#FEDBD0',
+      alignContent: 'center',
+    },
+    judul: {
+      marginTop: 20,
+      fontSize: 30,
+      alignSelf: 'center',
+      color: '#01579b',
+    },
+    atas : {
+      backgroundColor : "#fff",
+      marginTop : 10, 
+      marginLeft: 10, 
+      marginRight: 10,
+    },
+    tombol: {
+      marginTop : 20, 
+      marginLeft: 10, 
+      marginRight: 10,      
+    },
+    
+    tombol1: {
+      marginTop : 30, 
+      marginLeft: 10, 
+      marginRight: 10,      
+    },
+    input: {
+      fontSize: 15
+    },
+    text: {
+        fontSize: 20,
+        color: '#fff'
+    }
+  });

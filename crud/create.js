@@ -1,15 +1,24 @@
 import React, {
     Component
 } from 'react';
-
 import {
-    Container, Content, Button, Text, Item, Input, Form
+    SafeAreaView,
+    StyleSheet,
+    ScrollView,
+    View,
+    Text,
+  } from 'react-native';
+  import {
+    Colors,
+  } from 'react-native/Libraries/NewAppScreen';
+import {
+    Container, Content, Button, Item, Input, Form
 } from 'native-base';
 
 import axios from 'axios'
 
 export default class Create extends Component {
-    constructor(props) {
+ constructor(props) {
         super(props);
 
         this.state = {
@@ -33,16 +42,23 @@ export default class Create extends Component {
 
         axios.post('http://192.168.43.129:5000/exercises/add', exercises)
             .then(res => console.log(res.data))
-    }
+    } 
 
     render() {
         return (
-            <Container>
+        <View style={styles.container}>
+        <SafeAreaView>
+          <ScrollView>
+            <Container style={styles.container}>
+            <View>
+                  <Text style={styles.judul}> 
+                    PROFILE
+                  </Text>
+                </View>
                 <Content>
                     <Form>
-                        <Item rounded
-                            style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                            <Input
+                        <Item rounded style={styles.atas}>
+                            <Input style={styles.input}
                                 placeholder='Name'
                                 onChangeText={name =>
                                     this.setState({ name: name })
@@ -50,30 +66,27 @@ export default class Create extends Component {
                                 value={this.state.name}
                             />
                         </Item>
-                        <Item rounded
-                            style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                            <Input
+                        <Item rounded style={styles.atas}>
+                            <Input style={styles.input}
                                 placeholder='Address'
                                 onChangeText={address =>
-                                    this.setState({ address : address })
+                                    this.setState({ address: address })
                                 }
                                 value={this.state.address}
                             />
                         </Item>
-                        <Item rounded
-                            style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                            <Input
+                        <Item rounded style={styles.atas}>
+                            <Input style={styles.input}
                                 keyboardType='numeric'
-                                placeholder='Date'
+                                placeholder='Date of Birth'
                                 onChangeText={date =>
                                     this.setState({ date: date })
                                 }
                                 value={this.state.date}
                             />
                         </Item>
-                        <Item rounded
-                            style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                            <Input
+                        <Item rounded style={styles.atas}>
+                            <Input style={styles.input}
                                 placeholder='E-mail'
                                 onChangeText={email =>
                                     this.setState({ email: email })
@@ -81,9 +94,8 @@ export default class Create extends Component {
                                 value={this.state.email}
                             />
                         </Item>
-                        <Item rounded
-                            style={{ marginTop: 12, marginLeft: 12, marginRight: 12 }}>
-                            <Input
+                        <Item rounded style={styles.atas}>
+                            <Input style={styles.input}
                                 keyboardType='numeric'
                                 placeholder='Number/Telp'
                                 onChangeText={number =>
@@ -94,21 +106,64 @@ export default class Create extends Component {
                         </Item>
 
                     </Form>
-                    <Button rounded success block
-                        style={{ marginLeft: 12, marginRight: 12, marginTop: 20 }}
+                    <View style={styles.tombol}>
+                    <Button full rounded transparent
+                        styles={styles.tombol}
                         onPress={() => {
                             this.onSubmit();
                             this.props.navigation.navigate('Read')
                         }}>
-                        <Text>Create</Text>
+                        <Text style={styles.text}>SUBMIT</Text>
                     </Button>
-                    <Button rounded block
-                        style={{ marginLeft: 12, marginRight: 12, marginTop: 20 }}
+                    </View>
+                    <View style={styles.tombol}>
+                    <Button full rounded transparent
+                        styles={styles.tombol}
                         onPress={() => { this.props.navigation.navigate('Read') }} >
-                        <Text>Read</Text>
+                        <Text style={styles.text}>DATA PROFILE</Text>
                     </Button>
+                    </View>
                 </Content>
             </Container>
+            </ScrollView>
+        </SafeAreaView>
+      </View>
         );
     }
 }
+const styles = StyleSheet.create({
+    scrollView: {
+      backgroundColor: Colors.lighter,
+    },
+    container: {
+      backgroundColor: '#a37b48',
+      alignContent: 'center',
+    },
+    judul: {
+      marginTop: 20,
+      fontSize: 30,
+      alignSelf: 'center',
+      color: '#fff',
+      fontFamily: 'mono'
+    },
+    atas : {
+      backgroundColor : "#fff",
+      marginTop : 10, 
+      marginLeft: 10, 
+      marginRight: 10,
+    },
+    tombol: {
+        backgroundColor: '#442700',
+      marginTop : 20, 
+      marginLeft: 10, 
+      marginRight: 10,      
+    },
+    
+    input: {
+      fontSize: 15
+    },
+    text: {
+        fontSize: 20,
+        color: '#fff'
+    }
+  });
