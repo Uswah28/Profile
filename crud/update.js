@@ -45,7 +45,7 @@ export default class Update extends Component {
           })
   }
 
-  onUpdate(id) {
+  onUpdate() {
       const exercises = {
         name: this.state.name,
         address: this.state.address,
@@ -54,7 +54,7 @@ export default class Update extends Component {
         number: this.state.number
       }
 
-      console.log(' EXERCISES ', exercises);
+      console.log(' UPDATE ', exercises);
 
       axios.post('http://192.168.43.129:5000/exercises/update/' + this.props.route.params.ID, exercises)
           .then(res => console.log(res.data))
@@ -97,7 +97,6 @@ export default class Update extends Component {
                       <Item rounded
                           style={styles.atas}>
                           <Input style={styles.input}
-                              keyboardType='numeric'
                               placeholder='Date'
                               onChangeText={date =>
                                   this.setState({ date: date })
@@ -118,7 +117,6 @@ export default class Update extends Component {
                       <Item rounded
                           style={styles.atas}>
                           <Input style={styles.input}
-                              keyboardType='numeric'
                               placeholder='Number/Telp'
                               onChangeText={number =>
                                   this.setState({ number: number })
@@ -132,7 +130,7 @@ export default class Update extends Component {
                   <Button full rounded transparent 
                   styles={styles.tombol} 
                       onPress={() => {
-                        this.onUpdate(this.props.route.params.ID);
+                        this.onUpdate();
                           this.props.navigation.navigate('Read')
                       }}>
                       <Text style={styles.text}>UPDATE</Text>

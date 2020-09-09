@@ -77,7 +77,6 @@ export default class Create extends Component {
                         </Item>
                         <Item rounded style={styles.atas}>
                             <Input style={styles.input}
-                                keyboardType='numeric'
                                 placeholder='Date of Birth'
                                 onChangeText={date =>
                                     this.setState({ date: date })
@@ -96,7 +95,6 @@ export default class Create extends Component {
                         </Item>
                         <Item rounded style={styles.atas}>
                             <Input style={styles.input}
-                                keyboardType='numeric'
                                 placeholder='Number/Telp'
                                 onChangeText={number =>
                                     this.setState({ number: number })

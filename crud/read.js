@@ -17,7 +17,13 @@ export default class Read extends Component {
   constructor(props) {
       super(props);
       this.state = {
+        name: [],
+        modalVisible: false,
       }
+  }
+
+  setModalVisible = (visible) => {
+    this.setState({modalVisible: visible});
   }
 
   getData() {
@@ -41,14 +47,15 @@ componentDidUpdate() {
      axios.get('http://192.168.43.129:5000/exercises/')
      .then(Response => {
          const name = Response.data;
-         this.setState({name: name})
+         this.setState({name})
          console.log(name)
      })
      .catch((Error) => {
          console.log(Error);
      })
  }
- key = (item, index) => index.toString()
+
+ //key = (item, index) => index.toString()
   createTwoButtonAlert(id, name, address, date, email, number) {
       Alert.alert(
           "What will you do?",
@@ -61,13 +68,13 @@ componentDidUpdate() {
               {
                   text: "EDIT",
                   onPress: () => {
-                      this.props.navigation.navigate('Update', { ID: id, NAME: name, ADDRESS: address, DATEOFBIRTH: date, EMAIL: email, NUMBERTELP: number});
+                      this.props.navigation.navigate('Update', { ID: id, NAME: name, ADDRESS: address, DATE: date, EMAIL: email, NUMBER: number});
                   },
                   style: "cancel"
               },
               {
                   text: "DELETE", onPress: () => {
-                      axios.delete('http://192.168.43.129:5000/exercises/${id}') .then(res => console.log(res.data));
+                      axios.delete(`http://192.168.43.129:5000/exercises/${id}`).then(res => console.log(res.data));
                       this.getData()
                   }
               }
