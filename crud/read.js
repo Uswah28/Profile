@@ -17,44 +17,38 @@ export default class Read extends Component {
   constructor(props) {
       super(props);
       this.state = {
-          name: [],
-          modalVisible: false,
       }
   }
 
-  setModalVisible = (visible) => {
-    this.setState({modalVisible: visible});
-  }
-
-  getdata() {
+  getData() {
     axios.get('http://192.168.43.129:5000/exercises/')
-        .then(response => {
-            const name = response.data;
+        .then(Response => {
+            const name = Response.data;
             this.setState({ name: name })
             console.log(name)
         })
-        .catch((error) => {
-            console.log(error);
+        .catch((Error) => {
+            console.log(Error);
         })
 }
 
 componentDidUpdate() {
-    this.getdata()
+    this.getData()
 }
 
   componentDidMount(){
-    this.getdata();
+    this.getData();
      axios.get('http://192.168.43.129:5000/exercises/')
-     .then(response => {
-         const name = response.data;
-         this.setState({name})
+     .then(Response => {
+         const name = Response.data;
+         this.setState({name: name})
          console.log(name)
      })
-     .catch((error) => {
-         console.log(error);
+     .catch((Error) => {
+         console.log(Error);
      })
  }
-
+ key = (item, index) => index.toString()
   createTwoButtonAlert(id, name, address, date, email, number) {
       Alert.alert(
           "What will you do?",
@@ -73,8 +67,8 @@ componentDidUpdate() {
               },
               {
                   text: "DELETE", onPress: () => {
-                      axios.delete(`http://192.168.43.129:5000/exercises/${id}`).then(res => console.log(res.data));
-                      this.getdata()
+                      axios.delete('http://192.168.43.129:5000/exercises/${id}') .then(res => console.log(res.data));
+                      this.getData()
                   }
               }
           ],

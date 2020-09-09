@@ -4,14 +4,13 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  Form,
-  Text,
+  Text
 } from 'react-native';
 
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import { Container, Content, Input, Item, Button } from 'native-base';
+import { Container, Content, Input, Item, Form, Button } from 'native-base';
 import {} from '@react-navigation/native'
 
 
@@ -32,21 +31,21 @@ export default class Update extends Component {
 
   componentDidMount() {
       axios.get('http://192.168.43.129:5000/exercises/' + this.props.route.params.ID)
-          .then(response => {
+          .then(Response => {
               this.setState({
-            name: response.data.name,
-            address: response.data.address,
-            date: response.data.date,
-            email: response.data.email,
-            number: response.data.number
+            name: Response.data.name,
+            address: Response.data.address,
+            date: Response.data.date,
+            email: Response.data.email,
+            number: Response.data.number
               })
           })
-          .catch((error) => {
-              console.log(error);
+          .catch((Error) => {
+              console.log(Error);
           })
   }
 
-  onUpdate() {
+  onUpdate(id) {
       const exercises = {
         name: this.state.name,
         address: this.state.address,
@@ -55,7 +54,7 @@ export default class Update extends Component {
         number: this.state.number
       }
 
-      console.log(' UPDATE ', exercises);
+      console.log(' EXERCISES ', exercises);
 
       axios.post('http://192.168.43.129:5000/exercises/update/' + this.props.route.params.ID, exercises)
           .then(res => console.log(res.data))
@@ -64,13 +63,13 @@ export default class Update extends Component {
   render() {
       console.log(this.props.route.params.ID)
       return (
-        <View>
+        <View style={styles.container}>
         <SafeAreaView>
           <ScrollView>
           <Container style={styles.container}>
           <View>
                   <Text style={styles.judul}> 
-                    PROFILE UPDATE
+                  UPDATE PROFILE
                   </Text>
                 </View>
               <Content>
@@ -129,14 +128,16 @@ export default class Update extends Component {
                       </Item>
 
                   </Form>
+                  <View style={styles.tombol}>
                   <Button full rounded transparent 
                   styles={styles.tombol} 
                       onPress={() => {
-                          this.onUpdate();
+                        this.onUpdate(this.props.route.params.ID);
                           this.props.navigation.navigate('Read')
                       }}>
                       <Text style={styles.text}>UPDATE</Text>
-                  </Button>
+                  </Button> 
+                  </View>
               </Content>
           </Container>
           </ScrollView>
@@ -151,14 +152,14 @@ const styles = StyleSheet.create({
       backgroundColor: Colors.lighter,
     },
     container: {
-      backgroundColor: '#FEDBD0',
+      backgroundColor: '#724f1e',
       alignContent: 'center',
     },
     judul: {
       marginTop: 20,
       fontSize: 30,
       alignSelf: 'center',
-      color: '#01579b',
+      color: '#fff',
     },
     atas : {
       backgroundColor : "#fff",
@@ -167,6 +168,7 @@ const styles = StyleSheet.create({
       marginRight: 10,
     },
     tombol: {
+        backgroundColor : '#442700',
       marginTop : 20, 
       marginLeft: 10, 
       marginRight: 10,      
